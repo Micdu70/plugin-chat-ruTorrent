@@ -19,7 +19,7 @@ plugin.parseText = function(text)
         text = text.replace(/:\(|:-\(/gi, "<span id='frown" + plugin.settings["smileySet"] + "'></span>");
         text = text.replace(/:O|:-O/gi, "<span id='shocked" + plugin.settings["smileySet"] + "'></span>");
         text = text.replace(/;\)|;-\)/gi, "<span id='wink" + plugin.settings["smileySet"] + "'></span>");
-        text = text.replace(/XD|X-D/gi, "<span id='angry" + plugin.settings["smileySet"] + "'></span>");
+        text = text.replace(/XD|x\)/gi, "<span id='angry" + plugin.settings["smileySet"] + "'></span>");
         text = text.replace(/:\||:-\|/gi, "<span id='straight" + plugin.settings["smileySet"] + "'></span>");
         text = text.replace(/:\\|:-\\/gi, "<span id='slant" + plugin.settings["smileySet"] + "'></span>");
         text = text.replace(/:D|:-D/gi, "<span id='grin" + plugin.settings["smileySet"] + "'></span>");
