@@ -1,11 +1,11 @@
 <?php
 require_once(dirname(__FILE__) . "/../../php/util.php");
 require_once("chat.php");
-eval( getPluginConf("chat") );
+eval( FileUtil::getPluginConf("chat") );
 unset($ret);
 
 function updateChatLog($chat) {
-    $log = getSettingsPath() . "/chat/" . $chat . ".log";
+    $log = FileUtil::getSettingsPath() . "/chat/" . $chat . ".log";
 
     if (!file_exists($log . ".new"))
         return FALSE;
@@ -85,13 +85,13 @@ function writeToChatLog($message, $to, $from = NULL) {
 function getChatList() {
     global $rootPath;
 
-    $chatDir = getSettingsPath() . "/chat";
+    $chatDir = FileUtil::getSettingsPath() . "/chat";
     $chatList = array();
     $chatList["main_chat"] = array();
     $chatList["main_chat"]["newChat"] = file_exists($chatDir . "/main_chat.log.new");
     $chatList["main_chat"]["disabled"] = false;
 
-    $me = getUser();
+    $me = User::getUser();
     $users = scandir($rootPath . "/share/users/");
     if ($users && count($users) > 0) {
         foreach ($users as $user) {
@@ -120,7 +120,7 @@ if (!empty($_REQUEST["action"])) {
             if (empty($_REQUEST["chat"]) || !validChat($_REQUEST["chat"]) || empty($_REQUEST["message"]))
                 break;
 
-            $me = getUser();
+            $me = User::getUser();
             $message = round(microtime(true) * 1000) . "~" . $me . "~" . $_REQUEST["message"] . "\n";
             $errors = array();
             if ($_REQUEST["chat"] != "main_chat") {
@@ -157,12 +157,12 @@ if (!empty($_REQUEST["action"])) {
                 break;
             }
 
-            if (!file_exists(getSettingsPath() . "/chat/" . $_REQUEST["chat"] . ".log")) {
+            if (!file_exists(FileUtil::getSettingsPath() . "/chat/" . $_REQUEST["chat"] . ".log")) {
                 $ret = "{ \"chat\": \"" . $_REQUEST["chat"] . "\", \"lines\": [] }";
                 break;
             }
 
-            $lines = file(getSettingsPath() . "/chat/" . $_REQUEST["chat"] . ".log");
+            $lines = file(FileUtil::getSettingsPath() . "/chat/" . $_REQUEST["chat"] . ".log");
             if (!$lines) {
                 $ret = "{ \"error\": theUILang.logUnreadable }";
                 break;
@@ -187,7 +187,7 @@ if (!empty($_REQUEST["action"])) {
             if (empty($_REQUEST["chat"]) || !validChat($_REQUEST["chat"]))
                 break;
 
-            if (!unlink(getSettingsPath() . "/chat/" . $_REQUEST["chat"] . ".log"))
+            if (!unlink(FileUtil::getSettingsPath() . "/chat/" . $_REQUEST["chat"] . ".log"))
                 $ret = "{ \"\": theUILang.logDeleteFail }";
             else
                 $ret = "{ \"success\": \"true\" }";
@@ -232,11 +232,11 @@ if (!empty($_REQUEST["action"])) {
             $settings["format"] = $_REQUEST["format"];
             $settings["lastLine"] = $lastLine;
 
-            if ($settings["pm"] && file_exists(getSettingsPath() . "/chat/nopm")) {
-                if (!unlink(getSettingsPath() . "/chat/nopm"))
+            if ($settings["pm"] && file_exists(FileUtil::getSettingsPath() . "/chat/nopm")) {
+                if (!unlink(FileUtil::getSettingsPath() . "/chat/nopm"))
                     $ret = "{ \"error\": theUILang.chatPMError }";
             } elseif (!$settings["pm"])
-                if (!touch(getSettingsPath() . "/chat/nopm"))
+                if (!touch(FileUtil::getSettingsPath() . "/chat/nopm"))
                     $ret = "{ \"error\": theUILang.chatPMError }";
 
             $chat = new rChat();
@@ -251,5 +251,5 @@ if (!empty($_REQUEST["action"])) {
 if (empty($ret))
    $ret = "{ \"error\": theUILang.chatInvalidReq }";
 
-cachedEcho($ret, "application/json");
+CachedEcho::send($ret, "application/json");
 ?>

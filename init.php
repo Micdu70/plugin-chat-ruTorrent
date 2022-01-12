@@ -1,8 +1,8 @@
 <?php
 require_once("chat.php");
-eval( getPluginConf("chat") );
+eval( FileUtil::getPluginConf("chat") );
 
-$chatDir = getSettingsPath() . "/chat";
+$chatDir = FileUtil::getSettingsPath() . "/chat";
 if (!file_exists($chatDir) || !is_dir($chatDir))
     mkdir($chatDir);
 
@@ -15,7 +15,7 @@ $chatList["main_chat"]["newChat"] = file_exists($chatDir . "/main_chat.log.new")
 $chatList["main_chat"]["disabled"] = false;
 
 if ($chatSettings["pm"]) {
-    $me = getUser();
+    $me = User::getUser();
     $users = scandir($rootPath . "/share/users/");
     if ($users && count($users) > 0) {
         foreach ($users as $user) {

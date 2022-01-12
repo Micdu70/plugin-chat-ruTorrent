@@ -1,6 +1,6 @@
 <?php
 require_once(dirname(__FILE__) . "/../../php/cache.php");
-eval( getPluginConf("chat") );
+eval( FileUtil::getPluginConf("chat") );
 
 class rChat {
     public $hash = "chat.dat";
