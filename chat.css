@@ -22,6 +22,7 @@ div#chatPrompt {width: 380px;}
 div#chatPrompt-header {background-image: url(./images/error.gif);}
 div#chatPrompt-content {line-height: 16px; margin: 5px; padding: 5px; width: 360px;}
 
+.smileysContainer {-webkit-user-select: text; -moz-user-select: text; -ms-user-select: text; user-select: text;}
 .smileysContainer span#frown1 {background: url(./images/smileys.png) no-repeat 0px 0px; width: 14px; height: 14px; display: inline-block;}
 .smileysContainer span#shocked1 {background: url(./images/smileys.png) no-repeat -14px 0px; width: 14px; height: 14px; display: inline-block;}
 .smileysContainer span#wink1 {background: url(./images/smileys.png) no-repeat -28px 0px; width: 14px; height: 14px; display: inline-block;}

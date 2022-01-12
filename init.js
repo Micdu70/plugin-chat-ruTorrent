@@ -14,28 +14,28 @@ plugin.parseText = function(text)
     text = text.replace(/&(?!\w+([;\s]|$))/g, "&amp;");
     text = text.replace(/</g, "&lt;").replace(/>/g, "&gt;");
 
-    if (plugin.settings["smileys"]) {
-        text = text.replace(/&gt;:\)|&gt;:-\)/gi, "<span id='devil" + plugin.settings["smileySet"] + "'></span>");
-        text = text.replace(/:\(|:-\(/gi, "<span id='frown" + plugin.settings["smileySet"] + "'></span>");
-        text = text.replace(/:O|:-O/gi, "<span id='shocked" + plugin.settings["smileySet"] + "'></span>");
-        text = text.replace(/;\)|;-\)/gi, "<span id='wink" + plugin.settings["smileySet"] + "'></span>");
-        text = text.replace(/XD|x\)/gi, "<span id='angry" + plugin.settings["smileySet"] + "'></span>");
-        text = text.replace(/:\||:-\|/gi, "<span id='straight" + plugin.settings["smileySet"] + "'></span>");
-        text = text.replace(/:\\|:-\\/gi, "<span id='slant" + plugin.settings["smileySet"] + "'></span>");
-        text = text.replace(/:D|:-D/gi, "<span id='grin" + plugin.settings["smileySet"] + "'></span>");
-        text = text.replace(/:P|:-P/gi, "<span id='tongue" + plugin.settings["smileySet"] + "'></span>");
-        text = text.replace(/:'\(|:'-\(/gi, "<span id='sad" + plugin.settings["smileySet"] + "'></span>");
-        text = text.replace(/&gt;\.&lt;/gi, "<span id='wince" + plugin.settings["smileySet"] + "'></span>");
-        text = text.replace(/:\)|:-\)/gi, "<span id='smile" + plugin.settings["smileySet"] + "'></span>");
-        text = text.replace(/8\)|8-\)|B\)|B-\)/gi, "<span id='cool" + plugin.settings["smileySet"] + "'></span>");
-        text = text.replace(/&lt;3/gi, "<span id='love" + plugin.settings["smileySet"] + "'></span>");
-    }
-
     var pattern = /(https?:\/\/|ftps?:\/\/|ftpes:\/\/|[-0-9a-zA-Z.+_]+@|www\.)[^\s]+/gi;
     var matches = text.match(pattern);
 
-    if (matches == null)
+    if (matches == null) {
+	if (plugin.settings["smileys"]) {
+	    text = text.replace(/&gt;:\)|&gt;:-\)/gi, "<span id='devil" + plugin.settings["smileySet"] + "'></span>");
+            text = text.replace(/:\(|:-\(/gi, "<span id='frown" + plugin.settings["smileySet"] + "'></span>");
+            text = text.replace(/:O|:-O/gi, "<span id='shocked" + plugin.settings["smileySet"] + "'></span>");
+            text = text.replace(/;\)|;-\)/gi, "<span id='wink" + plugin.settings["smileySet"] + "'></span>");
+            text = text.replace(/XD|x\)/gi, "<span id='angry" + plugin.settings["smileySet"] + "'></span>");
+            text = text.replace(/:\||:-\|/gi, "<span id='straight" + plugin.settings["smileySet"] + "'></span>");
+            text = text.replace(/:\\|:-\\/gi, "<span id='slant" + plugin.settings["smileySet"] + "'></span>");
+            text = text.replace(/:D|:-D/gi, "<span id='grin" + plugin.settings["smileySet"] + "'></span>");
+            text = text.replace(/:P|:-P/gi, "<span id='tongue" + plugin.settings["smileySet"] + "'></span>");
+            text = text.replace(/:'\(|:'-\(/gi, "<span id='sad" + plugin.settings["smileySet"] + "'></span>");
+            text = text.replace(/&gt;\.&lt;/gi, "<span id='wince" + plugin.settings["smileySet"] + "'></span>");
+            text = text.replace(/:\)|:-\)/gi, "<span id='smile" + plugin.settings["smileySet"] + "'></span>");
+            text = text.replace(/8\)|8-\)|B\)|B-\)/gi, "<span id='cool" + plugin.settings["smileySet"] + "'></span>");
+            text = text.replace(/&lt;3/gi, "<span id='love" + plugin.settings["smileySet"] + "'></span>");
+	}
         return(text);
+    }
 
     for (var i = 0; i < matches.length; i++) {
         var replace = new RegExp(matches[i]);
@@ -49,7 +49,6 @@ plugin.parseText = function(text)
 
         text = text.replace(matches[i], "<a href='" + url + "' target='_blank'>" + matches[i] + "</a>");
     }
-
     return(text);
 }
 
@@ -58,6 +57,7 @@ theWebUI.showChat = function()
     plugin.active = true;
     theDialogManager.hide("stg");
     theDialogManager.toggle("tchat");
+    $("#chatarea").enableSysMenu();
     $("#chatMessage").focus();
     $("#chatarea")[0].scrollTop = $("#chatarea")[0].scrollHeight;
 }
@@ -294,6 +294,7 @@ plugin.onLangLoaded = function()
     }
 
     var chatList = "";
+
     if (plugin.settings["pm"]) {
         chatList = ""+
         "<div id='chatusers'>"+

@@ -1,7 +1,7 @@
 <?php
 require_once(dirname(__FILE__) . "/../../php/util.php");
 require_once("chat.php");
-eval(getPluginConf("chat"));
+eval( getPluginConf("chat") );
 unset($ret);
 
 function updateChatLog($chat) {

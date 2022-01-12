@@ -1,6 +1,6 @@
 <?php
 require_once("chat.php");
-eval(getPluginConf("chat"));
+eval( getPluginConf("chat") );
 
 $chatDir = getSettingsPath() . "/chat";
 if (!file_exists($chatDir) || !is_dir($chatDir))
